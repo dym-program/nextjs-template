@@ -1,23 +1,15 @@
-'use client';
-
-import './globals.css';
-import { ReactNode } from 'react';
-import Navbar from '../components/Navbar';
-import { SessionProvider } from 'next-auth/react';
+import RootLayout from '../components/RootLayout';
 
 export const metadata = {
   title: 'Next.js Template',
   description: 'A template project with MongoDB, Redis, and Social Authentication.',
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <SessionProvider>
-          <Navbar />
-          <main>{children}</main>
-        </SessionProvider>
+        <RootLayout>{children}</RootLayout>
       </body>
     </html>
   );
