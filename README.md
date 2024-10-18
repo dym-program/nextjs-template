@@ -1,2 +1,1 @@
-# nextjs-template
-next.jS typescript shadcn-ui mongodb mysqldb react app_route
+nextJS template mongodb mysqldb auth shadcn-ui AppRoute
