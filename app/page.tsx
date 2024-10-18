@@ -1,73 +1,77 @@
-"use client"; // 将整个组件标记为客户端组件
-import { useEffect, useState } from 'react';
-import CustomButton from '../components/Button';
-import { getRedisClient } from '../lib/redis';
 
-export default function Home() {
-  const [redisMessage, setRedisMessage] = useState('');
-  const [dbStatus, setDbStatus] = useState('未连接到数据库');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+// app/page.tsx
+"use client";
 
-  // 模拟数据库连接
-  useEffect(() => {
-    const connectToDatabase = async () => {
-      // 假设这里是连接 MongoDB 的逻辑
-      const success = true; // 这里可以根据实际连接结果来修改
-      if (success) {
-        setDbStatus('连接数据库成功');
-      }
-    };
-    connectToDatabase();
-  }, []);
+import { useState } from 'react';
+import { Button } from '@shadcn/ui';
+import axios from 'axios';
 
-  // 注册用户
-  const handleRegister = async () => {
-    const response = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password }),
-    });
+export default function HomePage() {
+  const [result, setResult] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [userData, setUserData] = useState<any>(null);
 
-    const data = await response.json();
-    if (response.ok) {
-      setRedisMessage(data.message);
-    } else {
-      setRedisMessage(`注册失败: ${data.error}`);
+  const handleMongoDBWrite = async () => {
+    try {
+      const response = await axios.post('/api/mongodb-test');
+      setResult(response.data.message);
+    } catch (error) {
+      setResult('MongoDB 写入失败');
+    }
+  };
+
+  const handleRedisWrite = async () => {
+    try {
+      const response = await axios.post('/api/redis-test');
+      setResult(response.data.message);
+    } catch (error) {
+      setResult('Redis 写入失败');
+    }
+  };
+
+  const handleEmailSearch = async () => {
+    try {
+      const response = await axios.get(`/api/user?email=${email}`);
+      setUserData(response.data);
+    } catch (error) {
+      setUserData({ message: '查询失败或用户不存在' });
     }
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-4xl font-bold mb-4">Welcome to Next.js!</h1>
-      <p>{dbStatus}</p>
-      <div className="mt-6">
-        <h2 className="text-2xl">用户注册</h2>
-        <input
-          type="text"
-          placeholder="姓名"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="border p-2 mr-2"
-        />
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+      <h1 className="text-2xl font-bold mb-4">Next.js Template 项目主页</h1>
+      <Button className="mb-2" onClick={handleMongoDBWrite}>
+        测试 MongoDB 写入
+      </Button>
+      <Button className="mb-2" onClick={handleRedisWrite}>
+        测试 Redis 写入
+      </Button>
+      {result && <p className="mt-4">{result}</p>}
+
+      <div className="mt-6 w-full max-w-md">
         <input
           type="email"
-          placeholder="邮箱"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border p-2 mr-2"
+          placeholder="输入用户邮箱"
+          className="w-full p-2 border border-gray-300 rounded mb-2"
         />
-        <input
-          type="password"
-          placeholder="密码"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border p-2 mr-2"
-        />
-        <CustomButton onClick={handleRegister}>注册</CustomButton>
+        <Button onClick={handleEmailSearch}>查询用户信息</Button>
       </div>
-      {redisMessage && <p className="mt-4">{redisMessage}</p>}
-    </main>
+      {userData && (
+        <div className="mt-4 p-4 border border-gray-300 rounded">
+          {userData.message ? (
+            <p>{userData.message}</p>
+          ) : (
+            <div>
+              <p>Email: {userData.email}</p>
+              <p>创建时间: {new Date(userData.createdAt).toLocaleString()}</p>
+              <p>最后登录时间: {new Date(userData.lastLoginAt).toLocaleString()}</p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
