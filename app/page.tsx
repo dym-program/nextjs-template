@@ -1,9 +1,7 @@
-
 // app/page.tsx
-"use client";
+'use client';
 
 import { useState } from 'react';
-import { Button } from '@shadcn/ui';
 import axios from 'axios';
 
 export default function HomePage() {
@@ -41,12 +39,21 @@ export default function HomePage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <h1 className="text-2xl font-bold mb-4">Next.js Template 项目主页</h1>
-      <Button className="mb-2" onClick={handleMongoDBWrite}>
+
+      <button
+        className="mb-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all"
+        onClick={handleMongoDBWrite}
+      >
         测试 MongoDB 写入
-      </Button>
-      <Button className="mb-2" onClick={handleRedisWrite}>
+      </button>
+      
+      <button
+        className="mb-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-all"
+        onClick={handleRedisWrite}
+      >
         测试 Redis 写入
-      </Button>
+      </button>
+
       {result && <p className="mt-4">{result}</p>}
 
       <div className="mt-6 w-full max-w-md">
@@ -57,8 +64,14 @@ export default function HomePage() {
           placeholder="输入用户邮箱"
           className="w-full p-2 border border-gray-300 rounded mb-2"
         />
-        <Button onClick={handleEmailSearch}>查询用户信息</Button>
+        <button
+          className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-all"
+          onClick={handleEmailSearch}
+        >
+          查询用户信息
+        </button>
       </div>
+
       {userData && (
         <div className="mt-4 p-4 border border-gray-300 rounded">
           {userData.message ? (

@@ -1,7 +1,9 @@
-// app/layout.tsx
+'use client';
+
 import './globals.css';
 import { ReactNode } from 'react';
 import Navbar from '../components/Navbar';
+import { SessionProvider } from 'next-auth/react';
 
 export const metadata = {
   title: 'Next.js Template',
@@ -12,8 +14,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        <main>{children}</main>
+        <SessionProvider>
+          <Navbar />
+          <main>{children}</main>
+        </SessionProvider>
       </body>
     </html>
   );
