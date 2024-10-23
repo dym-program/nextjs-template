@@ -3,6 +3,8 @@
 
 import { useState } from 'react';
 import axios from 'axios';
+import  Counter  from '../components/test_demo';
+import EffectCount from '../components/test_useEffect';
 
 export default function HomePage() {
   const [result, setResult] = useState<string>('');
@@ -37,9 +39,12 @@ export default function HomePage() {
   };
 
   return (
+
+    
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <h1 className="text-2xl font-bold mb-4">Next.js Template 项目主页</h1>
-
+      <Counter />
+      <EffectCount />
       <button
         className="mb-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all"
         onClick={handleMongoDBWrite}
