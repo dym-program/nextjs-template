@@ -1,21 +1,12 @@
-// app/api/mongodb-test/route.ts
+// app/api/redis-test/route.ts
 import { NextResponse } from 'next/server';
-import dbConnect from '../../../lib/mongodb';
-import User from '../../../models/User';
+import redis from '../../../lib/redis';
 
 export async function POST() {
-  await dbConnect();
-
-  const testUser = new User({
-    email: 'test@example.com',
-    password: 'password',
-    createdAt: new Date(),
-  });
-
   try {
-    await testUser.save();
-    return NextResponse.json({ message: 'MongoDB 写入成功' });
+    await redis.set('test_key', 'test_value', 'EX', 60); // 设置一个带过期时间的键
+    return NextResponse.json({ message: 'Redis 写入成功' });
   } catch (error) {
-    return NextResponse.json({ message: 'MongoDB 写入失败' }, { status: 500 });
+    return NextResponse.json({ message: 'Redis 写入失败' }, { status: 500 });
   }
 }
