@@ -3,8 +3,12 @@
 
 import { useState } from 'react';
 import axios from 'axios';
-import  Counter  from '../components/test_demo';
+import  Counter  from '../components/test_useState';
 import EffectCount from '../components/test_useEffect';
+import ThemeToggler from "../components/test_useContext2"
+import { ThemeProvider  } from "../components/test_useContext"
+import  Counter1   from "../components/test_useReducer"
+
 
 export default function HomePage() {
   const [result, setResult] = useState<string>('');
@@ -39,19 +43,29 @@ export default function HomePage() {
   };
 
   return (
-
-    
+      
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
+      
       <h1 className="text-2xl font-bold mb-4">Next.js Template 项目主页</h1>
       <Counter />
+
       <EffectCount />
+
+
+      <ThemeProvider >
+        <ThemeToggler />
+      </ThemeProvider>
+      
+      <Counter1></Counter1>
+
+      <p></p>
       <button
         className="mb-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all"
         onClick={handleMongoDBWrite}
       >
         测试 MongoDB 写入
       </button>
-      
+      <p></p>
       <button
         className="mb-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-all"
         onClick={handleRedisWrite}
@@ -60,7 +74,7 @@ export default function HomePage() {
       </button>
 
       {result && <p className="mt-4">{result}</p>}
-
+      <p></p>
       <div className="mt-6 w-full max-w-md">
         <input
           type="email"
