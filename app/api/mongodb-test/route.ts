@@ -10,7 +10,6 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
 
-    // 数据验证（简化示例）
     if (!email || !password) {
       return NextResponse.json(
         { message: '邮箱和密码不能为空' },
