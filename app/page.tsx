@@ -16,8 +16,12 @@ export default function HomePage() {
   const [userData, setUserData] = useState<any>(null);
 
   const handleMongoDBWrite = async () => {
+    const email = `user${Date.now()}@example.com`;
     try {
-      const response = await axios.post('/api/mongodb-test');
+      const response = await axios.post('/api/mongodb-test',{
+        email: email,
+        password: 'mypassword',
+      });
       setResult(response.data.message);
     } catch (error) {
       setResult('MongoDB 写入失败');
