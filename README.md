@@ -110,5 +110,5 @@
 
 
 
-### DROP THE PROJECT
+### CLOSE THE PROJECT
 ### I,M USE <https://github.com/ixartz/Next-js-Boilerplate> ! IT'S GREAT!
